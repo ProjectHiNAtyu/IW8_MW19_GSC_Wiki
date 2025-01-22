@@ -66,17 +66,57 @@
 
 
 
-//++++++++++++++++++++++++++++++
-// EN : Initialization process (loaded during map load after match start.)
-// EN : * This initialization function is read by "1816.gscbin" (scripts\mp\art.gsc).
-// EN : * If you use this GSC with MRON, this Main( ) function is not necessary.
-// JA : 初期化処理（マッチ開始後のマップロード中に読み込まれる）
-// JA : ※この初期化関数は 「1816.gscbin」（scripts\mp\art.gsc）が読み込むための関数です）
-// JA : ※MRONでこのGSCを使用する場合、この Main( ) 関数は不要です
-//++++++++++++++++++++++++++++++
-Main( )
+//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
+//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
+// EN : Attention!!: 
+// EN : The functions below are the ones required to run MRON.
+// EN : If you delete them, it will no longer function and you will get DEV ERROR 1141.
+// JA : 注意！！：
+// JA : ここから下にある関数は、MRONで実行するのに必要な関数です。
+// JA : 削除するとDEV ERROR 1141で機能しなくなります。
+//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
+//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
+
+
+
+// EN : Attention!!: 
+// EN : The code below is the original function contained in the default GSC scripts\mp\gametypes\br_gametype_payload.gsc that jydenx replaces with the MRON GSC Injector.
+// EN : If you delete this function and inject it with MRON Injector, when these functions are called from other GSC assets, DEV ERROR 1141 indicating Unknown Function will occur.
+// EN : The following functions are not required in Donetsk and Retail 1816.gscbin, so you can delete them.
+// EN : Furthermore, the Retail 1816.gscbin only supports a maximum memory size of about 7KB.
+// EN : You cannot adjust the memory size of GSC assets unless you use DB_AllocXZoneMemoryInternal pointed to by jydenx.
+// EN : If you do not use DB_AllocXZoneMemoryInternal, add processing to other GSC assets and call your own function in the external class.
+
+// JA : 注意！！：
+// JA : これより下のコードは、MRON GSC Injectorで jydenx が置き換えるデフォルトGSC scripts\mp\gametypes\br_gametype_payload.gsc に含まれている元々の関数です。
+// JA : この関数を削除してMRON InjectorでInjectした場合、他のGSCアセットからこれらの関数が呼ばれたときに、Unknown Functionを示す DEV ERROR 1141 が発生します。
+// JA : Donetsk、Retailの 1816.gscbin では以下の関数は不要なので、削除して構いません。
+// JA : 尚Retailの 1816.gscbin は、メモリサイズが最大7KBほどしかサポートしていません。
+// JA : jydenx が指し示す DB_AllocXZoneMemoryInternal を利用しないと、GSCアセットのメモリサイズを調整することはできません。
+// JA : DB_AllocXZoneMemoryInternal を使わない場合、他のGSCアセットに処理を追加し、外部クラスの自作関数を呼ぶようにしてください。
+
+
+
+
+
+// don't remove any of these below
+
+firesalediscount( var_0, var_1 )
 {
-    level thread InitProject( );
+    
+}
+
+fix_wall_traversal( var_0, var_1 )
+{
+    
+}
+
+ontimelimit() {
+}
+
+_id_1318D( var_0, var_1 )
+{
+
 }
 
 
@@ -90,6 +130,36 @@ Main( )
 // JA : ※Donetsk 1816.gscbin でこのGSCを使用する場合、この Init( ) 関数は不要です
 //++++++++++++++++++++++++++++++
 Init( )
+{
+    level thread InitProject( );
+}
+
+
+
+//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
+//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
+// EN : Attention!!: 
+// EN : The functions above are necessary to run MRON.
+// EN : If you delete them, it will no longer function and you will get DEV ERROR 1141.
+// JA : 注意！！：
+// JA : ここから上にある関数は、MRONで実行するのに必要な関数です。
+// JA : 削除するとDEV ERROR 1141で機能しなくなります。
+//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
+//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
+
+
+
+
+
+//++++++++++++++++++++++++++++++
+// EN : Initialization process (loaded during map load after match start.)
+// EN : * This initialization function is read by "1816.gscbin" (scripts\mp\art.gsc).
+// EN : * If you use this GSC with MRON, this Main( ) function is not necessary.
+// JA : 初期化処理（マッチ開始後のマップロード中に読み込まれる）
+// JA : ※この初期化関数は 「1816.gscbin」（scripts\mp\art.gsc）が読み込むための関数です）
+// JA : ※MRONでこのGSCを使用する場合、この Main( ) 関数は不要です
+//++++++++++++++++++++++++++++++
+Main( )
 {
     level thread InitProject( );
 }
@@ -7826,48 +7896,4 @@ GetMultilingualText( selfLang , textID , useGamepad )
         default:
             return textID;
     }
-}
-
-
-
-
-
-// EN : Attention!!: 
-// EN : The code below is the original function contained in the default GSC scripts\mp\gametypes\br_gametype_payload.gsc that jydenx replaces with the MRON GSC Injector.
-// EN : If you delete this function and inject it with MRON Injector, when these functions are called from other GSC assets, DEV ERROR 1141 indicating Unknown Function will occur.
-// EN : The following functions are not required in Donetsk and Retail 1816.gscbin, so you can delete them.
-// EN : Furthermore, the Retail 1816.gscbin only supports a maximum memory size of about 7KB.
-// EN : You cannot adjust the memory size of GSC assets unless you use DB_AllocXZoneMemoryInternal pointed to by jydenx.
-// EN : If you do not use DB_AllocXZoneMemoryInternal, add processing to other GSC assets and call your own function in the external class.
-
-// JA : 注意！！：
-// JA : これより下のコードは、MRON GSC Injectorで jydenx が置き換えるデフォルトGSC scripts\mp\gametypes\br_gametype_payload.gsc に含まれている元々の関数です。
-// JA : この関数を削除してMRON InjectorでInjectした場合、他のGSCアセットからこれらの関数が呼ばれたときに、Unknown Functionを示す DEV ERROR 1141 が発生します。
-// JA : Donetsk、Retailの 1816.gscbin では以下の関数は不要なので、削除して構いません。
-// JA : 尚Retailの 1816.gscbin は、メモリサイズが最大7KBほどしかサポートしていません。
-// JA : jydenx が指し示す DB_AllocXZoneMemoryInternal を利用しないと、GSCアセットのメモリサイズを調整することはできません。
-// JA : DB_AllocXZoneMemoryInternal を使わない場合、他のGSCアセットに処理を追加し、外部クラスの自作関数を呼ぶようにしてください。
-
-
-
-
-
-// don't remove any of these below
-
-firesalediscount( var_0, var_1 )
-{
-    
-}
-
-fix_wall_traversal( var_0, var_1 )
-{
-    
-}
-
-ontimelimit() {
-}
-
-_id_1318D( var_0, var_1 )
-{
-
 }
