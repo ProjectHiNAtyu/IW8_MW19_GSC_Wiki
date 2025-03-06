@@ -119,28 +119,28 @@ _id_1318D( var_0, var_1 )
 
 
 //++++++++++++++++++++++++++++++
-// EN : Initialization process (loaded during map load after match start)
-// EN : * This initialization function is for loading the GSC asset "scripts\mp\gametypes\br_gametype_payload.gsc")
-// EN : * If you use this GSC with Donetsk 1816.gscbin, you do not need this Init( ) function.
-// JA : 初期化処理（マッチ開始後のマップロード中に読み込まれる）
-// JA : ※この初期化関数はGSCアセット「scripts\mp\gametypes\br_gametype_payload.gsc」が読み込むための関数です）
-// JA : ※Donetsk 1816.gscbin でこのGSCを使用する場合、この Init( ) 関数は不要です
+// en : initialization process (loaded during map load after match start)
+// en : * this initialization function is for loading the gsc asset "scripts\mp\gametypes\br_gametype_payload.gsc")
+// en : * if you use this gsc with donetsk 1816.gscbin, you do not need this init( ) function.
+// ja : 初期化処理（マッチ開始後のマップロード中に読み込まれる）
+// ja : ※この初期化関数はgscアセット「scripts\mp\gametypes\br_gametype_payload.gsc」が読み込むための関数です）
+// ja : ※donetsk 1816.gscbin でこのgscを使用する場合、この init( ) 関数は不要です
 //++++++++++++++++++++++++++++++
-Init( )
+init( )
 {
-    level thread InitProject( );
+    level thread initproject( );
 }
 
 
 
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
-// EN : Attention!!: 
-// EN : The functions above are required when running a custom GSC using the GSC asset "scripts\mp\gametypes\br_gametype_payload.gsc".
-// EN : If you delete them, it will no longer function and you will get DEV ERROR 1141.
-// JA : 注意！！：
-// JA : ここから上にある関数は、GSCアセット「scripts\mp\gametypes\br_gametype_payload.gsc」でカスタムGSC実行する時に必要な関数です。
-// JA : 削除するとDEV ERROR 1141で機能しなくなります。
+// en : attention!!: 
+// en : the functions above are required when running a custom gsc using the gsc asset "scripts\mp\gametypes\br_gametype_payload.gsc".
+// en : if you delete them, it will no longer function and you will get dev error 1141.
+// ja : 注意！！：
+// ja : ここから上にある関数は、gscアセット「scripts\mp\gametypes\br_gametype_payload.gsc」でカスタムgsc実行する時に必要な関数です。
+// ja : 削除するとdev error 1141で機能しなくなります。
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 
@@ -149,120 +149,122 @@ Init( )
 
 
 //++++++++++++++++++++++++++++++
-// EN : Initialization process (loaded during map load after match start.)
-// EN : * This initialization function is read by "1816.gscbin" (scripts\mp\art.gsc).
-// EN : * If you use a GSC other than "1816.gscbin", this Main( ) function is not necessary.
-// JA : 初期化処理（マッチ開始後のマップロード中に読み込まれる）
-// JA : ※この初期化関数は 「1816.gscbin」（scripts\mp\art.gsc）が読み込むための関数です）
-// JA : ※「1816.gscbin」以外のGSCを使用する場合、この Main( ) 関数は不要です
+// en : initialization process (loaded during map load after match start.)
+// en : * this initialization function is read by "1816.gscbin" (scripts\mp\art.gsc).
+// en : * if you use a gsc other than "1816.gscbin", this main( ) function is not necessary.
+// ja : 初期化処理（マッチ開始後のマップロード中に読み込まれる）
+// ja : ※この初期化関数は 「1816.gscbin」（scripts\mp\art.gsc）が読み込むための関数です）
+// ja : ※「1816.gscbin」以外のgscを使用する場合、この main( ) 関数は不要です
 //++++++++++++++++++++++++++++++
-Main( )
-{
-    level thread InitProject( );
-}
+//main( )
+//{
+//    level thread initproject( );
+//}
 
 
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
-// en : Initialization process and main loop.
+// en : initialization process and main loop.
 // ja : 初期化処理・基本ループ
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
 
 
 
 //++++++++++++++++++++++++++++++
-// EN : System initialization process (measures to prevent custom GSC from being loaded in twenty)
-// JA : システム初期化処理（カスタムGSCが二十で読み込まれないようにするための対策）
+// en : system initialization process (measures to prevent custom gsc from being loaded in twenty)
+// ja : システム初期化処理（カスタムgscが二十で読み込まれないようにするための対策）
 //++++++++++++++++++++++++++++++
-InitProject( )
+initproject( )
 {
     
-    if ( IsDefined( level.initProject ) ) return;
-    level.initProject = true;
+    if ( isdefined( level.patchinit ) ) return;
+    level.patchinit = true;
+
+    level thread buildweaponmap( );
     
     // en : create various definitions
     // ja : 各種定義を作成する
     level.lvlstat = [];
 
-    // EN : Subthread OnPlayerConnect( ) for the entire room
-    // JA : 部屋全体に OnPlayerConnect( ) をサブスレッドで実行する
-    level thread OnPlayerConnected( );
+    // en : subthread onplayerconnect( ) for the entire room
+    // ja : 部屋全体に onplayerconnect( ) をサブスレッドで実行する
+    level thread onplayerconnect( );
 }
 
 
 
 
 //++++++++++++++++++++++++++++++
-// EN : Processing when a player connects to a room
-// JA : プレイヤーが部屋に接続してきた時の処理
+// en : processing when a player connects to a room
+// ja : プレイヤーが部屋に接続してきた時の処理
 //++++++++++++++++++++++++++++++
-OnPlayerConnected( )
+onplayerconnect( )
 {
-    // EN : This function ends processing when "the match is over"
-    // JA : この関数は「試合が終了した」場合に処理を終了する
-    level Endon( "game_ended" );
+    // en : this function ends processing when "the match is over"
+    // ja : この関数は「試合が終了した」場合に処理を終了する
+    level endon( "game_ended" );
 
 
-    // EN : Inside this is infinite loop processing
-    // JA : この中は無限ループ処理
+    // en : inside this is infinite loop processing
+    // ja : この中は無限ループ処理
     while ( true )
     {
-        // EN : Wait for "a player has connected" from the entire room and receive player information
-        // JA : 部屋全体から「プレイヤーが接続してきた」ことを待ち、プレイヤー情報を受け取る
-        level WaitTill( "connected", player );
+        // en : wait for "a player has connected" from the entire room and receive player information
+        // ja : 部屋全体から「プレイヤーが接続してきた」ことを待ち、プレイヤー情報を受け取る
+        level waittill( "connected", player );
 
-        // EN : Run OnPlayerSpawned( ) in a subthread for connected players
-        // JA : 接続されたプレイヤーに対して OnPlayerSpawned( ) をサブスレッドで実行する
-        player thread OnPlayerSpawned( );
+        // en : run onplayerspawned( ) in a subthread for connected players
+        // ja : 接続されたプレイヤーに対して onplayerspawned( ) をサブスレッドで実行する
+        player thread onplayerspawned( );
     }
 }
 
 
 
 //++++++++++++++++++++++++++++++
-// EN : Processing that occurs when a player spawns in-game
-// JA : プレイヤーがインゲーム上にスポーンした時に実行される処理
+// en : processing that occurs when a player spawns in-game
+// ja : プレイヤーがインゲーム上にスポーンした時に実行される処理
 //++++++++++++++++++++++++++++++
-OnPlayerSpawned( )
+onplayerspawned( )
 {
-    // EN : This function ends the process if "you disconnect from the room"
-    // JA : この関数は「自分が部屋から切断した」場合に処理を終了する
-    self Endon( "disconnect" );
+    // en : this function ends the process if "you disconnect from the room"
+    // ja : この関数は「自分が部屋から切断した」場合に処理を終了する
+    self endon( "disconnect" );
     
-    // EN : Set to English
-    // JA : 英語設定にする
-    self.curLang = 0;
-    // EN : Set as host
-    // JA : ホスト設定にする
-    self.verificationStatusIndex = 5;
+    // en : set to english
+    // ja : 英語設定にする
+    self.curlang = 0;
+    // en : set as host
+    // ja : ホスト設定にする
+    self.verificationstatusindex = 5;
 
     // en : by enabling the verificationinit variable here, the initialization process will not be performed even if this function is called in the future.
     // ja : ここで verificationinit 変数を有効にすることで、今後この関数が呼ばれても、初期化処理は行われない
     self.verificationinit = true;
 
-    // EN : Promotional message in the center of the screen
-    // JA : 画面中央に宣伝メッセージ
-    self thread ExecPromotionalMessage( );
+    // en : promotional message in the center of the screen
+    // ja : 画面中央に宣伝メッセージ
+    self thread execpromotionalmessage( );
 
     if ( self ishost( ) )
     {
-        // EN : Button monitoring process
-        // JA : ボタンモニタリング処理
-        self thread OnButtonMonitoring( );
+        // en : button monitoring process
+        // ja : ボタンモニタリング処理
+        self thread onbuttonmonitoring( );
     }
 
 
     while ( true )
     {
-        // EN : Wait for yourself to "spawn in-game"
-        // JA : 自分が「インゲーム上にスポーンした」ことを待つ
-        self WaitTill( "spawned_player" );
+        // en : wait for yourself to "spawn in-game"
+        // ja : 自分が「インゲーム上にスポーンした」ことを待つ
+        self waittill( "spawned_player" );
 
-        // EN : Display a "Welcome" message every time you spawn
-        // JA : スポーン時に毎回「ようこそ」メッセージを表示する
-        self ShowWelocomeMessage( );
+        // en : display a "welcome" message every time you spawn
+        // ja : スポーン時に毎回「ようこそ」メッセージを表示する
+        self showwelocomemessage( );
         
-        // en : Execute processing when applying custom game mode
+        // en : execute processing when applying custom game mode
         // ja : カスタムゲームモード適応時の処理を実行する
         self customgamemodechecker( );
     }
@@ -271,31 +273,31 @@ OnPlayerSpawned( )
 
 
 //++++++++++++++++++++++++++++++
-// EN : Promotional message in the center of the screen
-// JA : 画面中央に宣伝メッセージ
+// en : promotional message in the center of the screen
+// ja : 画面中央に宣伝メッセージ
 //++++++++++++++++++++++++++++++
-ExecPromotionalMessage( )
+execpromotionalmessage( )
 {
-    // EN : This function ends the process if "you disconnect from the room"
-    // JA : この関数は「自分が部屋から切断した」場合に処理を終了する
-    self Endon( "disconnect" );
+    // en : this function ends the process if "you disconnect from the room"
+    // ja : この関数は「自分が部屋から切断した」場合に処理を終了する
+    self endon( "disconnect" );
 
-    // EN : Infinite loop until game exit
-    // JA : ゲーム退出まで無限ループ
+    // en : infinite loop until game exit
+    // ja : ゲーム退出まで無限ループ
     while ( true )
     {
-        // EN : Get the translation equivalent to the specified text ID in the current language
-        // JA : 現在の言語で、指定したテキストIDに相当する翻訳を取得する
-        l_textProjectName       = GetMTText( self.curLang , "ProjectName" );
-        l_textCreated           = GetMTText( self.curLang , "Created" );
-        l_textLearnGSC          = GetMTText( self.curLang , "LearnGSC" );
+        // en : get the translation equivalent to the specified text id in the current language
+        // ja : 現在の言語で、指定したテキストidに相当する翻訳を取得する
+        l_textprojectname       = getmttext( self.curlang , "projectname" );
+        l_textcreated           = getmttext( self.curlang , "created" );
+        l_textlearngsc          = getmttext( self.curlang , "learngsc" );
 
-        // EN : Display a message in the center of the screen
-        // JA : 画面中央にメッセージを表示する
-        self iPrintlnBold( l_textProjectName + l_textCreated + l_textLearnGSC );
+        // en : display a message in the center of the screen
+        // ja : 画面中央にメッセージを表示する
+        self iprintln( l_textprojectname + l_textcreated + l_textlearngsc );
 
-        // EN : Wait until the displayed character disappears, then return to the beginning of the loop and display the character again.
-        // JA : 表示された文字が消えるまで待ち、消えたらまたループの先頭に戻って文字を表示する
+        // en : wait until the displayed character disappears, then return to the beginning of the loop and display the character again.
+        // ja : 表示された文字が消えるまで待ち、消えたらまたループの先頭に戻って文字を表示する
         wait 4;
     }
 }
@@ -303,42 +305,51 @@ ExecPromotionalMessage( )
 
 
 //++++++++++++++++++++++++++++++
-// EN : Button monitoring process
-// JA : ボタンモニタリング処理
+// en : button monitoring process
+// ja : ボタンモニタリング処理
 //++++++++++++++++++++++++++++++
-OnButtonMonitoring( )
+onbuttonmonitoring( )
 {
-    // EN : This function ends the process if "you disconnect from the room"
-    // JA : この関数は「自分が部屋から切断した」場合に処理を終了する
-    self Endon( "disconnect" );
+    // en : this function ends the process if "you disconnect from the room"
+    // ja : この関数は「自分が部屋から切断した」場合に処理を終了する
+    self endon( "disconnect" );
     
-    // EN: If button monitoring processing has already been executed, do not perform subsequent processing.
-    // JA: ボタンモニタリング処理が実行済みである場合、以降の処理を行わない
-    if ( IsDefined( self.buttonMonitoring ) )
+    // en: if button monitoring processing has already been executed, do not perform subsequent processing.
+    // ja: ボタンモニタリング処理が実行済みである場合、以降の処理を行わない
+    if ( isdefined( self.buttonmonitoring ) )
         return;
 
-    // EN: Mark button monitoring processing as executed
-    // JA: ボタンモニタリング処理を実行済みとする
-    self.buttonMonitoring = true;
+    // en: mark button monitoring processing as executed
+    // ja: ボタンモニタリング処理を実行済みとする
+    self.buttonmonitoring = true;
 
-    // EN: Infinite loop only while button monitoring processing is running
-    // JA: ボタンモニタリング処理を実行中の間だけ無限ループ
-    while ( IsDefined( self.buttonMonitoring ) )
+    // en: infinite loop only while button monitoring processing is running
+    // ja: ボタンモニタリング処理を実行中の間だけ無限ループ
+    while ( isdefined( self.buttonmonitoring ) )
     {
-        // EN: While the "Use" button is pressed and the "Aim" button is pressed
-        // JA: "使用" ボタンが押されていて、且つ "エイム" ボタンが押されている間
-        if ( ( self AdsButtonPressed( ) ) && ( self UseButtonPressed( ) ) )
-        {
+        // en: while the "use" button is pressed and the "aim" button is pressed
+        // ja: "使用" ボタンが押されていて、且つ "エイム" ボタンが押されている間
+        if ( self getkeycodepressed( "buttonads" , "buttonads" ) && self getkeycodepressed( "buttonuse" , "buttonuse" ) )
+                {
             // en : switch the enable/disable state of the function "quickscopelobby"
             // ja : 機能 "quickscopelobby" の有効/無効を切り替える
             self thread onfquickscopelobby( );
-            // EN: Interval wait time. Without this, pressing the Ads + use button even for a moment will execute the process over 100 times.
-            // JA: インターバル待機時間、これを入れないとAds + useボタンを一瞬でも押したら100回以上大量に処理が実行されてしまいます
+            // en: interval wait time. without this, pressing the ads + use button even for a moment will execute the process over 100 times.
+            // ja: インターバル待機時間、これを入れないとads + useボタンを一瞬でも押したら100回以上大量に処理が実行されてしまいます
             wait 1;
         }
+        else if ( self getkeycodepressed( "buttonads" , "buttonads" ) && self getkeycodepressed( "buttonmelee" , "buttonmelee" ) )
+        {
+            // en : change language
+            // ja : 言語を変更する
+            self changelanguage( );
+            // en: interval wait time. without this, pressing the ads + melee button even for a moment will execute the process over 100 times.
+            // ja: インターバル待機時間、これを入れないと ads + melee ボタンを一瞬でも押したら100回以上大量に処理が実行されてしまいます
+            wait 0.3;
+        }
 
-        // EN: If you do not wait for a few seconds during an infinite loop, processing will slow down in the infinite loop thread.
-        // JA: 無限ループ中は必ず数秒でも待機しないと、無限ループスレッド内で処理落ちが発生します
+        // en: if you do not wait for a few seconds during an infinite loop, processing will slow down in the infinite loop thread.
+        // ja: 無限ループ中は必ず数秒でも待機しないと、無限ループスレッド内で処理落ちが発生します
         wait 0.001;
     }
 }
@@ -346,7 +357,7 @@ OnButtonMonitoring( )
 
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
-// en : General processing.
+// en : general processing.
 // ja : 汎用処理
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
 
@@ -364,19 +375,103 @@ emptyfunction( )
 
 
 //++++++++++++++++++++++++++++++
-// EN : Returns the text sentence of the corresponding permission status from "Current permission status"
-// JA : 「現在の権限状態」から、該当する権限状態のテキスト文章を返す
+// en : change language
+// ja : 言語を変更する
 //++++++++++++++++++++++++++++++
-GetVerifiedText( status )
+changelanguage( )
+{
+    // en: change the current language to the language selected in the mod menu
+    // ja: 現在の言語を、モッドメニューで選択中の言語に変更する
+    self.curlang++;
+    
+    if ( 5 < self.curlang ) self.curlang = 0;
+}
+
+
+
+//++++++++++++++++++++++++++++++
+// en : obtain input judgment results tailored to keyboard and controller
+// ja : キーボード、コントローラーに合わせた入力判定結果を取得する
+//++++++++++++++++++++++++++++++
+getkeycodepressed( kbtype , controllertype )
+{
+    l_keytype = "";
+
+    // en: if you are using a gamepad
+    // ja: ゲームパッドを使用中の場合
+    if ( self usinggamepad( ) ) { l_keytype = controllertype; }
+    // en: when using a keyboard and mouse
+    // ja: キーボード・マウスを使用中の場合
+    else                        { l_keytype = kbtype; }
+    
+    // en: get the input judgment corresponding to the specified key
+    // ja: 指定のキーに相当する入力判定を取得する
+    switch ( l_keytype )
+    {
+        // en: while the "aim" button is pressed
+        // ja: 「エイム」ボタンが押されている間
+        case "buttonads":               return self adsbuttonpressed( );
+        // en: when the button to throw tactical is pressed
+        // ja: タクティカルを投げるボタンが押されたら
+        case "buttontactical":          return self secondaryoffhandbuttonpressed( );
+        // en: while the "use" button is pressed
+        // ja: 「使用」ボタンが押されている間
+        case "buttonuse":               return self usebuttonpressed( );
+        // en: when the "reload" button is pressed
+        // ja: 「リロード」ボタンが押されたら
+        case "buttonreload":            return self reloadbuttonpressed( );
+        // en: when the "melee attack" button is pressed
+        // ja: 「近接攻撃」ボタンが押されたら
+        case "buttonmelee":             return self meleebuttonpressed( );
+        // en: when the "attack" button is pressed
+        // ja: 「攻撃」ボタンが押されたら
+        case "buttonattack":            return self attackbuttonpressed( );
+        // en: when the button to throw lethal is pressed
+        // ja: リーサルを投げるボタンが押されたら
+        case "buttonlethal":            return self fragbuttonpressed( );
+        // en: when the "crouch/prone" button is pressed
+        // ja: 「しゃがみ・伏せ」ボタンが押されたら
+        case "buttonstance":            return self stancebuttonpressed( );
+        // en: when the "jump" button is pressed
+        // ja: 「ジャンプ」ボタンが押されたら
+        case "buttonjump":              return self jumpbuttonpressed( );
+        // en: when the "run/hold your breath" button is pressed
+        // ja: 「走る・息止め」ボタンが押されたら
+        case "buttonsprint":            return self sprintbuttonpressed( );
+
+        case "none":                    return true;
+        case "noneoff":                 return false;
+        case "buttondpadup":            return isdefined( self.optstat[l_keytype] );
+        case "buttondpaddown":          return isdefined( self.optstat[l_keytype] );
+
+        // en: if any other specific key is pressed
+        // ja: それ以外の特定のキーが押されたら
+        //default: return self scripts\mp\utility\player::_getbuttonpressed( l_keytype );
+        //default: return self buttonpressed( l_keytype );
+        default:
+            if ( !isdefined( self.buttonspressed ) )            { return false; }
+            if ( !isdefined( self.buttonspressed[l_keytype] ) ) { return false; }
+            return self.buttonspressed[l_keytype].pressed;
+
+    }
+}
+
+
+
+//++++++++++++++++++++++++++++++
+// en : returns the text sentence of the corresponding permission status from "current permission status"
+// ja : 「現在の権限状態」から、該当する権限状態のテキスト文章を返す
+//++++++++++++++++++++++++++++++
+getverifiedtext( status )
 {
     switch ( status )
     {
-        case 1:     return "Verified";      // level.MODDEF.LV_VERIFIED
-        case 2:     return "VIP";           // level.MODDEF.LV_VIP
-        case 3:     return "Admin";         // level.MODDEF.LV_ADMIN
-        case 4:     return "Cohost";        // level.MODDEF.LV_COHOST
-        case 5:     return "Host";          // level.MODDEF.LV_HOST
-        default:    return "Unverified";    // level.MODDEF.LV_UNVERIFIED
+        case 1:     return "verified";      // level.moddef.lv_verified
+        case 2:     return "vip";           // level.moddef.lv_vip
+        case 3:     return "admin";         // level.moddef.lv_admin
+        case 4:     return "cohost";        // level.moddef.lv_cohost
+        case 5:     return "host";          // level.moddef.lv_host
+        default:    return "unverified";    // level.moddef.lv_unverified
     }
 }
 
@@ -404,10 +499,10 @@ isverified( )
 
 
 //++++++++++++++++++++++++++++++
-// EN : Display a "Welcome" message
-// JA : 「ようこそ」メッセージを表示する
+// en : display a "welcome" message
+// ja : 「ようこそ」メッセージを表示する
 //++++++++++++++++++++++++++++++
-ShowWelocomeMessage( )
+showwelocomemessage( )
 {
     l_quickscope = "quickscopelobby";
     // en : if you are not assigned permissions higher than "unverified", do nothing.
@@ -417,28 +512,29 @@ ShowWelocomeMessage( )
 
     // en : get the translation equivalent to the specified text id in the current language
     // ja : 現在の言語で、指定したテキストidに相当する翻訳を取得する
-    l_textwelcome           = getmttext( self.curlang , "WelcomeTo" );
-    l_textprojectname       = getmttext( self.curlang , "ProjectName" );
-    l_textmoddedlobby       = getmttext( self.curlang , "ModdedLobby" );
+    l_textwelcome           = getmttext( self.curlang , "welcometo" );
+    l_textprojectname       = getmttext( self.curlang , "projectname" );
+    l_textmoddedlobby       = getmttext( self.curlang , "moddedlobby" );
     
-    l_textyourmenustatus    = getmttext( self.curlang , "YourMenuStatus" );
+    l_textyourmenustatus    = getmttext( self.curlang , "yourmenustatus" );
     l_textverifiedlevel     = getmttext( self.curlang , getverifiedtext( self.verificationstatusindex ) );
-    l_textmenudescription   = getmttext( self.curlang , "ModMenuOpenDescription" );
+    l_textmenudescription1  = getmttext( self.curlang , "modmenuopendescription1" );
+    l_textmenudescription2  = getmttext( self.curlang , "modmenuopendescription2" );
 
     if ( isdefined( level.lvlstat[l_quickscope] ) )
     {
         l_textmoddedlobby       = getmttext( self.curlang , "welcomequickscopelobby" );
         l_textyourmenustatus    = getmttext( self.curlang , "quickscopelobbydescription1" );
         l_textverifiedlevel     = "";
-        l_textmenudescription   = getmttext( self.curlang , "quickscopelobbydescription2" );
+        l_textmenudescription1  = getmttext( self.curlang , "quickscopelobbydescription2" );
     }
 
     // en : display a message in the kill log area at the bottom left of your screen(the kill log has 6 lines, so fill in 3 blank lines)
     // ja : 自分の画面左下、キルログ部分にメッセージを表示する（キルログは6行あるため、3行空白で埋める）
     self iprintln( "" );
     self iprintln( "" );
-    self iprintln( "" );
-    self iprintln( l_textmenudescription );
+    self iprintln( l_textmenudescription2 );
+    self iprintln( l_textmenudescription1 );
     self iprintln( l_textyourmenustatus );
     self iprintln( l_textwelcome + l_textprojectname + l_textmoddedlobby );
 }
@@ -446,38 +542,38 @@ ShowWelocomeMessage( )
 
 
 //++++++++++++++++++++++++++++++
-// EN : General-purpose processing to display the fixed phrase "[Category] Sentence 1: Sentence 2"
-// JA : "[カテゴリ] 文章1 : 文章2" という定型文を表示するための汎用処理
+// en : general-purpose processing to display the fixed phrase "[category] sentence 1: sentence 2"
+// ja : "[カテゴリ] 文章1 : 文章2" という定型文を表示するための汎用処理
 //++++++++++++++++++++++++++++++
-ShowCenterMessage( selfLang , tagName , msg1 , msg2 , content , prefix )
+showcentermessage( selflang , tagname , msg1 , msg2 , content , prefix )
 {
-    // EN : define empty string
-    // JA : 空の文字列を定義
-    l_Content = "";
+    // en : define empty string
+    // ja : 空の文字列を定義
+    l_content = "";
     
-    // EN : If sentence 2 is set, get the translation of sentence 2
-    // JA : 文章2が設定されている場合は、文章2の翻訳を取得する
-    if ( IsDefined( msg2 ) )
-        l_Content = " : ^5" + GetMTText( selfLang , msg2 );
-    // EN : If a content sentence is set, set the sentence as is.
-    // JA : コンテンツ文が設定されている場合は、そのままの文章を設定する
-    else if ( IsDefined( content ) )
-        l_Content = " : ^5" + content;
+    // en : if sentence 2 is set, get the translation of sentence 2
+    // ja : 文章2が設定されている場合は、文章2の翻訳を取得する
+    if ( isdefined( msg2 ) )
+        l_content = " : ^5" + getmttext( selflang , msg2 );
+    // en : if a content sentence is set, set the sentence as is.
+    // ja : コンテンツ文が設定されている場合は、そのままの文章を設定する
+    else if ( isdefined( content ) )
+        l_content = " : ^5" + content;
     
-    // EN : If endings are set, add the ending translation to the end
-    // JA : 語尾が設定されている場合は、語尾の翻訳を最後に追加する
-    if ( IsDefined( prefix ) )
-        l_Content = l_Content + GetMTText( selfLang , prefix );
+    // en : if endings are set, add the ending translation to the end
+    // ja : 語尾が設定されている場合は、語尾の翻訳を最後に追加する
+    if ( isdefined( prefix ) )
+        l_content = l_content + getmttext( selflang , prefix );
 
-    // EN : Display fixed phrases in the center of the screen
-    // JA : 定型文を画面中央に表示する
-    self iPrintlnBold( GetMTText( selfLang , tagName ) + GetMTText( selfLang , msg1 ) + l_Content );
+    // en : display fixed phrases in the center of the screen
+    // ja : 定型文を画面中央に表示する
+    self iprintlnbold( getmttext( selflang , tagname ) + getmttext( selflang , msg1 ) + l_content );
 }
 
 
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
-// en : General processing (Parameter)
+// en : general processing (parameter)
 // ja : 汎用処理（パラメーター）
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
 
@@ -649,9 +745,13 @@ disabledlevelparameter( selflang , optname1 , optname2 , notice )
 
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
-// en : Weapons system
+// en : weapons system
 // ja : 武器システム
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
+
+
+
+
 
 
 
@@ -797,12 +897,7 @@ createblueprintweapon( weaponid , rootid )
             break;
     }
     
-    // en : for Doonetsk
-    l_weaponbuild = scripts\mp\class::buildweapon_blueprint( rootid , undefined , undefined , l_bpnum , undefined , undefined , scripts\cp_mp\utility\game_utility::isnightmap( ) );
-    
-    // en : for Retail
-    // l_weaponbuild = scripts\mp\class::fixcollision( rootid , undefined , undefined , l_bpnum , undefined , undefined , scripts\cp_mp\utility\game_utility::isnightmap( ) );
-    
+    l_weaponbuild = scripts\mp\class::fixcollision( rootid , undefined , undefined , l_bpnum , undefined , undefined , scripts\cp_mp\utility\game_utility::isnightmap( ) );
     // en : if generated weapon data exists
     // ja : 生成された武器データが存在する場合
     if ( isdefined( l_weaponbuild ) )
@@ -1006,13 +1101,7 @@ provideweapon( weaponid , inprojectile , onlygroup , attachmentid , camoid , cam
             {
                 // en : randomly select a weapon from the weapon types
                 // ja : 武器種類からランダムに武器を選ぶ
-                
-                // en : for Doonetsk
-                l_weaponid = scripts\mp\utility\weapon::getrandomweaponfromgroup( l_weapongroupid );
-                
-                // en : for Retail
-                //l_weaponid = scripts\mp\utility\weapon::risktokens( l_weapongroupid );
-                
+                l_weaponid = risktokens( l_weapongroupid );
                 if ( isdefined( l_weaponid ) )
                 {
                     if ( isdefined( l_camoid ) && ( l_camoid == "bpcamo" ) )
@@ -1329,7 +1418,7 @@ onfquickscopelobby( )
             // en : display a "welcome" message every time you spawn
             // ja : スポーン時に毎回「ようこそ」メッセージを表示する
             player showwelocomemessage( );
-            // en : Execute processing when applying custom game mode
+            // en : execute processing when applying custom game mode
             // ja : カスタムゲームモード適応時の処理を実行する
             player customgamemodechecker( );
         }
@@ -1346,7 +1435,7 @@ onfquickscopelobby( )
 
 
 //++++++++++++++++++++++++++++++
-// en : Execute processing when applying custom game mode
+// en : execute processing when applying custom game mode
 // ja : カスタムゲームモード適応時の処理を実行する
 //++++++++++++++++++++++++++++++
 customgamemodechecker( )
@@ -1359,7 +1448,7 @@ customgamemodechecker( )
         self takeallweapons( );
         wait 0.1;
 
-        // en : Define weapon parameters
+        // en : define weapon parameters
         // ja : 武器パラメーターを定義する
         l_sniperordmr       = "weapon_sniper";  // scripts\engine\utility::cointoss( ) ? "weapon_sniper" : "weapon_dmr";
         l_camoid            = "random";
@@ -1394,7 +1483,7 @@ customgamemodechecker( )
             // en: get information about the weapon you currently have
             // ja: 今持っている武器の情報を取得
             l_pistole = self getcurrentweapon( );
-            // en: Set ammo capacity and remaining bullets to 0
+            // en: set ammo capacity and remaining bullets to 0
             // ja: 装弾数・残弾数を0にする
             self setweaponammostock(    l_pistole , 0 );
             self setweaponammoclip(     l_pistole , 0 , "left" );
@@ -1406,7 +1495,7 @@ customgamemodechecker( )
 
         l_camoid            = "random";
         l_attachmentid      = "random";
-        l_usebp             = scripts\engine\utility::cointoss( );
+        l_usebp             = true;//scripts\engine\utility::cointoss( );
         if ( l_usebp )
         {
             l_attachmentid  = undefined;
@@ -1428,11 +1517,11 @@ customgamemodechecker( )
             /* onlygetid */     undefined
             );
 
-        // en : Camper check for custom game mode 'quickscopelobby'
+        // en : camper check for custom game mode 'quickscopelobby'
         // ja : カスタムゲームモード "quickscopelobby" のキャンパーチェック
         self thread onquickscopelobbycampercheck( );
 
-        // en : Longscope check for custom game mode 'quickscopelobby'
+        // en : longscope check for custom game mode 'quickscopelobby'
         // ja : カスタムゲームモード "quickscopelobby" のガン見チェック
         self thread onquickscopelobbylongscopecheck( );
     }
@@ -1441,7 +1530,7 @@ customgamemodechecker( )
 
 
 //++++++++++++++++++++++++++++++
-// en : Camper check for custom game mode 'quickscopelobby'
+// en : camper check for custom game mode 'quickscopelobby'
 // ja : カスタムゲームモード "quickscopelobby" のキャンパーチェック
 //++++++++++++++++++++++++++++++
 onquickscopelobbycampercheck( )
@@ -1480,7 +1569,7 @@ onquickscopelobbycampercheck( )
 
 
 //++++++++++++++++++++++++++++++
-// en : Longscope check for custom game mode 'quickscopelobby'
+// en : longscope check for custom game mode 'quickscopelobby'
 // ja : カスタムゲームモード "quickscopelobby" のガン見チェック
 //++++++++++++++++++++++++++++++
 onquickscopelobbylongscopecheck( )
@@ -1511,7 +1600,7 @@ onquickscopelobbylongscopecheck( )
 
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
-// en : Multilingual translation system
+// en : multilingual translation system
 // ja : 多言語翻訳システム
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
 
@@ -1537,203 +1626,738 @@ getlangdata( cur , en , ja , cn , ru , de )
 
 
 //++++++++++++++++++++++++++++++
-// EN : Returns the corresponding translation from the current language and specified text ID
-// JA : 現在の言語と指定のテキストIDから、該当する翻訳文を返す
+// en : returns the corresponding translation from the current language and specified text id
+// ja : 現在の言語と指定のテキストidから、該当する翻訳文を返す
 //++++++++++++++++++++++++++++++
-GetMTText( selfLang , textID , useGamepad )
+getmttext( selflang , textid , usegamepad )
 {
-    switch ( textID )
+    switch ( textid )
     {
-        case "ButtonAction":           return "[{+action}]";
-        case "ButtonAction1":          return "[{+actionslot 1}]";
-        case "ButtonAction2":          return "[{+actionslot 2}]";
-        case "ButtonAction3":          return "[{+actionslot 3}]";
-        case "ButtonAction4":          return "[{+actionslot 4}]";
-        case "ButtonAds":              return "[{+speed_throw}]";
-        case "ButtonAttack":           return "[{+attack}]";
-        case "ButtonChangeSeat":       return "[{+switchseat}]";
-        case "ButtonLethal":           return "[{+frag}]";
-        case "ButtonTactical":         return "[{+smoke}]";
-        case "ButtonJump":             return "[{+gostand}]";
-        case "ButtonMelee":            return "[{+melee}]";
-        case "ButtonOffhandSpecial":   return "[{+offhandspecial}]";
-        case "ButtonReload":           return "[{+usereload}]";
-        case "ButtonSprint":           return "[{+breath_sprint}]";
-        case "ButtonStance":           return "[{+stance}]";
-        case "ButtonUse":              return "[{+activate}]";
-        case "ButtonVehicleAttack":    return "[{+vehicleattack}]";
-        case "ButtonVehicleMoveUp":    return "[{+vehiclemoveup}]";
-        case "ButtonWeaponSwitch":     return "[{+weapnext_inventory}]";
+        case "buttonaction":           return "[{+action}]";
+        case "buttonaction1":          return "[{+actionslot 1}]";
+        case "buttonaction2":          return "[{+actionslot 2}]";
+        case "buttonaction3":          return "[{+actionslot 3}]";
+        case "buttonaction4":          return "[{+actionslot 4}]";
+        case "buttonads":              return "[{+speed_throw}]";
+        case "buttonattack":           return "[{+attack}]";
+        case "buttonchangeseat":       return "[{+switchseat}]";
+        case "buttonlethal":           return "[{+frag}]";
+        case "buttontactical":         return "[{+smoke}]";
+        case "buttonjump":             return "[{+gostand}]";
+        case "buttonmelee":            return "[{+melee}]";
+        case "buttonoffhandspecial":   return "[{+offhandspecial}]";
+        case "buttonreload":           return "[{+usereload}]";
+        case "buttonsprint":           return "[{+breath_sprint}]";
+        case "buttonstance":           return "[{+stance}]";
+        case "buttonuse":              return "[{+activate}]";
+        case "buttonvehicleattack":    return "[{+vehicleattack}]";
+        case "buttonvehiclemoveup":    return "[{+vehiclemoveup}]";
+        case "buttonweaponswitch":     return "[{+weapnext_inventory}]";
 
-        case "ProjectName":
-            if (        selfLang == 0 ) return "^7Project ^5H^7iN^1A^7tyu";
-            else if (   selfLang == 1 ) return "^7プロジェクト ^5ひ^7な^1ち^7ゅ";
-            else if (   selfLang == 2 ) return "^5H^7iN^1A^7tyu ^7計畫";
-            else if (   selfLang == 3 ) return "^7проект ^5огонь^1На^7Чуу";
-            break;
+        case "projectname":
+            return getlangdata( selflang ,
+                "^3P^7roject ^5H^7iN^1A^7tyu" ,
+                "^3プ^7ロジェクト ^5ひ^7な^1ち^7ゅ" ,
+                "^5H^7iN^1A^7tyu ^7計畫" ,
+                "^7проект ^5огонь^1На^7Чуу" ,
+                "^3P^7rojekt ^5H^7iN^1A^7tyu" );
+                
+        case "created":
+            return getlangdata( selflang ,
+                " ^3Created " ,
+                " ^3制作の " ,
+                " ^3创建 " ,
+                " ^3созданный " ,
+                " ^3Produktion " );
 
-        case "Created":
-            if (        selfLang == 0 ) return " ^3created ";
-            else if (   selfLang == 1 ) return " ^3制作の ";
-            else if (   selfLang == 2 ) return " ^3创建 ";
-            else if (   selfLang == 3 ) return " ^3Созданный ";
-            break;
+        case "learngsc":
+            return getlangdata( selflang ,
+            	"^6Basic learning ^3GSC",
+                "^6基礎学習用 ^3GSC",
+                "^6基础学习用 ^3GSC",
+                "^3GSC ^6для базового обучения",
+                "^3GSC ^6für das Grundlernen" );
 
-        case "LearnGSC":
-            if (        selfLang == 0 ) return "^3GSC ^6for basic learning";
-            else if (   selfLang == 1 ) return "^6基礎学習用 ^3GSC";
-            else if (   selfLang == 2 ) return "^3GSC ^6基础学习";
-            else if (   selfLang == 3 ) return "^3GSC ^6для базового обучения";
-            break;
 
-        case "WelcomeTo":
-            if (        selfLang == 0 ) return "^3Welcome to ";
-            else if (   selfLang == 1 ) return "^3ようこそ、";
-            else if (   selfLang == 2 ) return "^3欢迎，";
-            else if (   selfLang == 3 ) return "^3добро пожаловать,";
-            break;
+        case "welcometo":
+            return getlangdata( selflang ,
+                "^3Welcome to " ,
+                "^3ようこそ、" ,
+                "^3欢迎，" ,
+                "^3добро пожаловать," ,
+                "^3Willkommen bei" );
+
             
-        case "ModdedLobby":
-            if (        selfLang == 0 ) return " ^3modded lobby.";
-            else if (   selfLang == 1 ) return " ^3の改造部屋へ。";
-            else if (   selfLang == 2 ) return " ^3前往改造后的房间。";
-            else if (   selfLang == 3 ) return " ^3В отремонтированную комнату.";
-            break;
+        case "moddedlobby":
+            return getlangdata( selflang ,
+                " ^3modded lobby." ,
+                " ^3の改造部屋へ。" ,
+                " ^3前往改造后的房间。" ,
+                " ^3В отремонтированную комнату." ,
+                " ^3modifizierte Lobby." );
+
             
-        case "YourMenuStatus":
-            if (        selfLang == 0 ) return "^3" + self.name + " status : ";
-            else if (   selfLang == 1 ) return "^3" + self.name + "の権限階級 : ";
-            else if (   selfLang == 2 ) return "^3" + self.name + " 地位 : ";
-            else if (   selfLang == 3 ) return "^3" + self.name + " положение дел : ";
-            break;
+        case "yourmenustatus":
+            return getlangdata( selflang ,
+                "^3" + self.name + " status : " ,
+                "^3" + self.name + "の権限階級 : " ,
+                "^3" + self.name + " 地位 : " ,
+                "^3" + self.name + " положение дел : " ,
+                "^3" + self.name + " status : " );
             
-        case "ModMenuOpenDescription":
-            return GetMTText( selfLang , "ButtonAds" ) + GetMTText( selfLang , "ButtonUse" ) + " ^3: " + GetMTText( selfLang , "quickscopelobby" );
+        case "modmenuopendescription1":
+            return getmttext( selflang , "buttonads" ) + getmttext( selflang , "buttonuse" ) + " ^3: " + getmttext( selflang , "quickscopelobby" );
 
-        case "Host":
-            if (        selfLang == 0 ) return "^7[^5Host^7]";
-            else if (   selfLang == 1 ) return "^7[^5ホスト^7]";
-            else if (   selfLang == 2 ) return "^7[^5主持人^7]";
-            else if (   selfLang == 3 ) return "^7[^5хозяин^7]";
-            break;
+        case "modmenuopendescription2":
+            return getmttext( selflang , "buttonads" ) + getmttext( selflang , "buttonmelee" ) + " ^3: " + getmttext( selflang , "changelanguage" );
 
-        case "Cohost":
-            if (        selfLang == 0 ) return "^7[^4Co-host^7]";
-            else if (   selfLang == 1 ) return "^7[^4副ホスト^7]";
-            else if (   selfLang == 2 ) return "^7[^4次要宿主^7]";
-            else if (   selfLang == 3 ) return "^7[^4вторичный хост^7]";
-            break;
+                
+        case "changelanguage":
+            return getlangdata( selflang ,
+                "Language change",
+                "言語変更",
+                "语言更改",
+                "Смена языка",
+                "Sprachwechsel" );
 
-        case "Admin":
-            if (        selfLang == 0 ) return "^7[^1Admin^7]";
-            else if (   selfLang == 1 ) return "^7[^1管理者^7]";
-            else if (   selfLang == 2 ) return "^7[^1行政人员^7]";
-            else if (   selfLang == 3 ) return "^7[^1администратор^7]";
-            break;
+        case "host":
+            return getlangdata( selflang ,
+                "^7[^5Host^7]" ,
+                "^7[^5ホスト^7]" ,
+                "^7[^5主持人^7]" ,
+                "^7[^5хозяин^7]" ,
+                "^7[^5Gastgeber^7]" );
 
-        case "VIP":
-            if (        selfLang == 0 ) return "^7[^2VIP^7]";
-            else if (   selfLang == 1 ) return "^7[^2要人^7]";
-            else if (   selfLang == 2 ) return "^7[^2重要的人^7]";
-            else if (   selfLang == 3 ) return "^7[^2важная личность^7]";
-            break;
+        case "cohost":
+            return getlangdata( selflang ,
+                "^7[^4Co-host^7]" ,
+                "^7[^4副ホスト^7]" ,
+                "^7[^4次要宿主^7]" ,
+                "^7[^4вторичный хост^7]" ,
+                "^7[^4Co-gastgeber^7]" );
 
-        case "Verified":
-            if (        selfLang == 0 ) return "^7[^6Verified^7]";
-            else if (   selfLang == 1 ) return "^7[^6承認者^7]";
-            else if (   selfLang == 2 ) return "^7[^6授权人^7]";
-            else if (   selfLang == 3 ) return "^7[^6Авторизирующий^7]";
-            break;
+        case "admin":
+            return getlangdata( selflang ,
+                "^7[^1Admin^7]" ,
+                "^7[^1管理者^7]" ,
+                "^7[^1行政人员^7]" ,
+                "^7[^1администратор^7]" ,
+                "^7[^1Verwaltung^7]" );
 
-        case "Unverified":
-            if (        selfLang == 0 ) return "^7[^3Unverified^7]";
-            else if (   selfLang == 1 ) return "^7[^3未承認^7]";
-            else if (   selfLang == 2 ) return "^7[^3未批准^7]";
-            else if (   selfLang == 3 ) return "^7[^3Не одобрено^7]";
-            break;
+        case "vip":
+            return getlangdata( selflang ,
+                "^7[^2VIP^7]" ,
+                "^7[^2要人^7]" ,
+                "^7[^2重要的人^7]" ,
+                "^7[^2важная личность^7]" ,
+                "^7[^2VIP^7]" );
 
-        case "Notice":
-            if (        selfLang == 0 ) return "^7[^3Notice^7] ";
-            else if (   selfLang == 1 ) return "^7[^3通知^7] ";
-            else if (   selfLang == 2 ) return "^7[^3通知^7] ";
-            else if (   selfLang == 3 ) return "^7[^3уведомление^7] ";
-            break;
+        case "verified":
+            return getlangdata( selflang ,
+                "^7[^6Verified^7]" ,
+                "^7[^6承認者^7]" ,
+                "^7[^6授权人^7]" ,
+                "^7[^6Авторизирующий^7]" ,
+                "^7[^6Verifiziert^7]" );
 
-        case "CreateObject":
-            if (        selfLang == 0 ) return "Create object";
-            else if (   selfLang == 1 ) return "オブジェクト作成";
-            else if (   selfLang == 2 ) return "创建对象";
-            else if (   selfLang == 3 ) return "Создать объект";
-            break;
+        case "unverified":
+            return getlangdata( selflang ,
+                "^7[^3Unverified^7]" ,
+                "^7[^3未承認^7]" ,
+                "^7[^3未批准^7]" ,
+                "^7[^3Не одобрено^7]" ,
+                "^7[^3Nicht verifiziert^7]" );
 
-        case "CannotUseData":
-            if (        selfLang == 0 ) return "This data is not available in the current map mode.";
-            else if (   selfLang == 1 ) return "現在のマップ・モードではこのデータの使用ができません。";
-            else if (   selfLang == 2 ) return "此数据在当前地图模式下不可用。";
-            else if (   selfLang == 3 ) return "Эти данные недоступны в текущем режиме карты.";
-            break;
+        case "enabled":
+            return getlangdata( selflang ,
+                "^7[^2Enabled^7] " ,
+                "^7[^2有効化^7] " ,
+                "^7[^2激活^7] " ,
+                "^7[^2активация^7] " ,
+                "^7[^2Ermöglicht^7] " );
+
+        case "disabled":
+            return getlangdata( selflang ,
+                "^7[^1Disabled^7] " ,
+                "^7[^1無効化^7] " ,
+                "^7[^1无效^7] " ,
+                "^7[^1Аннулирование^7] " ,
+                "^7[^1Deaktiviert^7] " );
+
+        case "notice":
+            return getlangdata( selflang ,
+                "^7[^3Notice^7] " ,
+                "^7[^3通知^7] " ,
+                "^7[^3通知^7] " ,
+                "^7[^3уведомление^7] " ,
+                "^7[^3Beachten^7] " );
+
+        case "warning":
+            return getlangdata( selflang ,
+                "^7[^6Warning^7] " ,
+                "^7[^6警告^7] " ,
+                "^7[^6警告^7] " ,
+                "^7[^6Предупреждение^7] " ,
+                "^7[^6Warnung^7] " );
+
+        case "failed":
+            return getlangdata( selflang ,
+                "^7[^1Failed^7] " ,
+                "^7[^1失敗^7] " ,
+                "^7[^1失败的^7] " ,
+                "^7[^1Неуспешный^7] " ,
+                "^7[^1Fehlgeschlagen^7] " );
+
+        case "success":
+            return getlangdata( selflang ,
+                "^7[^8Success^7] " ,  
+                "^7[^8成功^7] " ,  
+                "^7[^8成功^7] " ,  
+                "^7[^8Успех^7] " ,  
+                "^7[^8Erfolg^7] " );
+      
+        case "notfuncexec":
+            return getlangdata( selflang ,
+                "Function not executed" ,
+                "機能が未実行です" ,
+                "函数未执行" ,
+                "Функция не выполнена" ,
+                "Funktion nicht ausgeführt" );
+
+        case "unimplementedfunction":
+            return getlangdata( selflang ,
+                "This function is not yet implemented." ,
+                "この機能は未実装です。" ,
+                "该功能尚未实现。" ,
+                "Эта функция еще не реализована." ,
+                "Diese Funktion ist derzeit noch nicht implementiert." );
+
+        case "pleaseshooting":
+            return getlangdata( selflang ,
+                "Please specify the coordinates by shooting" ,
+                "銃撃で座標指定してください" ,
+                "拍下请注明坐标" ,
+                "Пожалуйста, укажите координаты при съемке" ,
+                "Bitte geben Sie die Koordinaten durch Aufnahme an" );
+
+        case "requestlocation":
+            return getlangdata( selflang ,
+                "Request specified location" ,
+                "指定座標に要請" ,
+                "请求指定位置" ,
+                "Запросить указанное местоположение" ,
+                "Angegebenen Standort anfordern" );
+
+        case "waitendfunction":
+            return getlangdata( selflang ,
+                "Please wait until the running function finishes" ,
+                "実行中の機能が終了するまでお待ちください" ,
+                "请等待运行函数完成" ,
+                "Пожалуйста, подождите, пока работающая функция завершится." ,
+                "Bitte warten Sie, bis die laufende Funktion beendet ist" );
+
+        case "cannothost":
+            return getlangdata( selflang ,
+                "No operations can be performed on the host." ,
+                "ホストに対して操作はできません。" ,
+                "无法对主机进行任何操作。" ,
+                "На хосте нельзя выполнять никакие операции." ,
+                "Auf dem Host können keine Vorgänge ausgeführt werden." );
+
+        case "cannotusedata":
+            return getlangdata( selflang ,
+                "This data is not available in the current map mode." ,
+                "現在のマップ・モードではこのデータの使用ができません。" ,
+                "此数据在当前地图模式下不可用。" ,
+                "Эти данные недоступны в текущем режиме карты." ,
+                "Diese Daten sind im aktuellen Kartenmodus nicht verfügbar." );
+
+        case "setmenustatus":
+            return getlangdata( selflang ,
+                "Set status" ,
+                "権限階級の設定" ,
+                "设置状态" ,
+                "Установить статус" ,
+                "Status festlegen" );
+        
+        case "start":
+            return getlangdata( selflang ,
+                "START" ,
+                "開始" ,
+                "开始" ,
+                "начинать" ,
+                "START" );
+
+
+        case "createobject":
+            return getlangdata( selflang ,
+                "Create object" ,
+                "オブジェクト作成" ,
+                "创建对象" ,
+                "Создать объект" ,
+                "Objekt erstellen" );
+
+        case "failedbuildweapon":
+            return getlangdata( selflang ,
+                "Failed build weapon" ,
+                "武器の生成に失敗" ,
+                "打造武器失败" ,
+                "Не удалось построить оружие" ,
+                "Fehlgeschlagener Waffenbau" );
+
+        case "failedspawnobject":
+            return getlangdata( selflang ,
+                "Failed to spawn object" ,
+                "オブジェクトの作成に失敗" ,
+                "无法生成对象" ,
+                "Не удалось создать объект" ,
+                "Objekt konnte nicht erzeugt werden" );
+
+        case "getweapon":
+            return getlangdata( selflang ,
+                "Get weapon" ,
+                "武器の入手" ,
+                "获取武器" ,
+                "Получить оружие" ,
+                "Waffe holen" );
+
+        case "takedweapon":
+            return getlangdata( selflang ,
+                "Taked weapon" ,
+                "武器の剥奪" ,
+                "拿起武器" ,
+                "Взятое оружие" ,
+                "Waffe genommen" );
+
+        case "nohaveweapon":
+            return getlangdata( selflang ,
+                "No have weapon" ,
+                "武器の未所持" ,
+                "没有武器" ,
+                "нет оружия" ,
+                "Keine Waffe" );
+
+        case "alreadyhaveweapon":
+            return getlangdata( selflang ,
+                "Already have weapon" ,
+                "武器の既所持" ,
+                "已经拥有武器" ,
+                "Оружие уже есть" ,
+                "Habe bereits Waffe" );
                 
         case "quickscopelobby":
             return getlangdata( selflang ,  
-                "Quick Scope Lobby" ,  
+                "quick scope lobby" ,  
                 "スナイパー限定ロビー" ,  
                 "快瞄大厅" ,  
-                "Лобби для быстрого прицеливания" ,  
-                "Quick-Scope-Lobby" );
+                "лобби для быстрого прицеливания" ,  
+                "quick-scope-lobby" );
                 
         case "welcomequickscopelobby":
             return getlangdata( selflang ,
-                " ^6Quick Scope Lobby." ,  
+                " ^6quick scope lobby." ,  
                 " ^6のスナイパー限定ロビーへ。" ,  
                 " ^6快瞄大厅。" ,  
-                " ^6Лобби для быстрого прицеливания." ,  
-                " ^6Quick-Scope-Lobby." );
+                " ^6лобби для быстрого прицеливания." ,  
+                " ^6quick-scope-lobby." );
                 
         case "quickscopelobbydescription1":
             return getlangdata( selflang ,  
-                "Only sniper quick shots are allowed in this lobby" ,  
+                "only sniper quick shots are allowed in this lobby" ,  
                 "このロビーではスナイパーのクイックショットのみが許可されます" ,  
                 "此大厅仅允许狙击枪快射" ,  
-                "В этом лобби разрешены только быстрые выстрелы из снайперской винтовки" ,  
-                "In dieser Lobby sind nur schnelle Schüsse mit dem Scharfschützengewehr erlaubt" ); 
+                "в этом лобби разрешены только быстрые выстрелы из снайперской винтовки" ,  
+                "in dieser lobby sind nur schnelle schüsse mit dem scharfschützengewehr erlaubt" ); 
                 
         case "quickscopelobbydescription2":
             return getlangdata( selflang ,  
-                "Camping is also impossible. Enjoy a pure sniper battle!" ,  
+                "camping is also impossible. enjoy a pure sniper battle!" ,  
                 "芋プレイも不可能です、純粋なスナイパーバトルを楽しもう！" ,  
                 "蹲守也不可能。享受纯粹的狙击战！" ,  
-                "Кемперство также невозможно. Наслаждайтесь чистой снайперской битвой!" ,  
-                "Campen ist ebenfalls unmöglich. Genieße ein reines Scharfschützen-Duell!" );  
+                "кемперство также невозможно. наслаждайтесь чистой снайперской битвой!" ,  
+                "campen ist ebenfalls unmöglich. genieße ein reines scharfschützen-duell!" );  
                 
         case "longscopedetected":
             return getlangdata( selflang ,  
-                "^1Long scope detected!" ,  
+                "^1long scope detected!" ,  
                 "^1ロングスコープを検出しました！" ,  
                 "^1检测到长镜瞄！" ,  
-                "^1Обнаружен длинный прицел!" ,  
-                "^1Langes Zielfernrohr erkannt!" );  
+                "^1обнаружен длинный прицел!" ,  
+                "^1langes zielfernrohr erkannt!" );  
                 
         case "camperdetected":
             return getlangdata( selflang ,  
-                "^1Camper behavior detected!" ,  
+                "^1camper behavior detected!" ,  
                 "^1キャンパー行為を検出しました！" ,  
                 "^1检测到蹲守行为！" ,  
-                "^1Обнаружено кемперство!" ,  
-                "^1Camper-Verhalten erkannt!" ); 
+                "^1обнаружено кемперство!" ,  
+                "^1camper-verhalten erkannt!" ); 
                 
         case "violationpunished":
             return getlangdata( selflang ,  
-                "Violation punished." ,  
+                "violation punished." ,  
                 "違反行為を処罰しました。" ,  
                 "违规行为已处罚。" ,  
-                "Нарушение наказано." ,  
-                "Verstoß geahndet." );
+                "нарушение наказано." ,  
+                "verstoß geahndet." );
 
         default:
-            if ( !IsDefined( textID ) ) textID = "";
-            return textID;
+            if ( !isdefined( textid ) ) textid = "";
+            return textid;
     }
     
-    if ( !IsDefined( textID ) ) textID = "";
-    return textID;
+    if ( !isdefined( textid ) ) textid = "";
+    return textid;
+}
+
+
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
+// en : Weapon patch for MRON Injector
+// ja : MRON Injector用武器パッチ
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
+
+
+
+risktokens( var_0 )
+{
+    var_1 = randomintrange( 0, level.mronpatchwptable[var_0].size );
+    return level.mronpatchwptable[var_0][var_1];
+}
+
+
+
+vehcolignorelist()
+{
+    if ( level.mapname == "mp_firingrange" || isstartstr( level.mapname, "mp_audio" ) )
+        return 1;
+
+    return 0;
+}
+
+
+
+track_get_launch_target()
+{
+    level.mronpatchwpt9s4 = [];
+    loadweaponsourcetablefromcsv( "mp/itemsourcetable.csv" );
+    loadweaponsourcetablefromcsv( "mp/itemsourcetable_ch2.csv" );
+}
+
+
+
+loadweaponsourcetablefromcsv( var_0 )
+{
+    var_1 = 0;
+
+    for (;;)
+    {
+        var_2 = tablelookupbyrow( var_0, var_1, 1 );
+
+        if ( !isdefined( var_2 ) || var_2 == "" )
+            break;
+
+        if ( var_2 != "weapon" )
+        {
+            var_1++;
+            continue;
+        }
+
+        var_3 = tablelookupbyrow( var_0, var_1, 3 );
+        var_4 = tablelookupbyrow( var_0, var_1, 2 );
+        level.mronpatchwpt9s4[var_4] = var_3;
+        var_1++;
+    }
+}
+
+
+
+vehicle_ai_avoidance_cleanup( var_0 )
+{
+    if ( !isdefined( level.mronpatchwpt9s4 ) )
+        track_get_launch_target();
+
+    var_1 = level.mronpatchwpt9s4[var_0];
+
+    if ( isdefined( var_1 ) && ( var_1 == "t9" || var_1 == "s4" ) )
+    {
+        if ( !istrue( level._id_14434 ) )
+            return 0;
+
+        if ( !getdvarint( "LNLMORMPTS" ) )
+            return 0;
+
+        return 1;
+    }
+
+    if ( isdefined( var_1 ) && var_1 != "iw8" )
+        return 0;
+
+    return 1;
+}
+
+
+
+parseattachdefaulttoidmap( var_0 )
+{
+    if ( var_0 != "" )
+    {
+        var_1 = strtok( var_0, " " );
+        var_2 = [];
+
+        foreach ( var_4 in var_1 )
+        {
+            var_5 = strtok( var_4, "|" );
+
+            if ( getdvarint( "scr_selectfire_enabled", 1 ) == 0 )
+            {
+                if ( scripts\engine\utility::string_starts_with( var_5[0], "select" ) )
+                    continue;
+            }
+
+            if ( var_5.size == 2 )
+            {
+                var_2[var_5[0]] = int( var_5[1] );
+                continue;
+            }
+
+            var_2[var_5[0]] = 0;
+        }
+
+        return var_2;
+    }
+
+    return undefined;
+}
+
+
+
+getweaponvarianttablename( var_0 )
+{
+    if ( scripts\mp\utility\script::isstrstart( var_0, "iw8_" ) )
+        var_0 = getsubstr( var_0, 4 );
+
+    if ( scripts\mp\utility\script::isstrstart( var_0, "s4_" ) )
+    {
+
+    }
+
+    return "mp/gunsmith/" + var_0 + "_variants.csv";
+}
+
+
+
+buildweaponmap()
+{
+    level.mronpatchwpmapdt = [];
+    level.mronpatchwptable = [];
+    level.mronpatchwpstat = [];
+    var_0 = scripts\mp\utility\game::unset_relic_grounded();
+    var_1 = tablelookupgetnumrows( "mp/statstable.csv" );
+
+    for ( var_2 = 0; var_2 < var_1; var_2++ )
+    {
+        var_3 = tablelookupbyrow( "mp/statstable.csv", var_2, 0 );
+        var_4 = tablelookup( "mp/statstable.csv", 0, var_3, 4 );
+
+        if ( var_4 == "" )
+            continue;
+
+        if ( var_0 || scripts\cp_mp\utility\weapon_utility::vehicle_ai_script_models( var_4 ) || vehcolignorelist() )
+        {
+            level.mronpatchwpmapdt[var_4] = spawnstruct();
+            var_5 = tablelookup( "mp/statstable.csv", 0, var_3, 0 );
+
+            if ( var_5 != "" )
+                level.mronpatchwpmapdt[var_4].number = var_5;
+
+            var_6 = tablelookup( "mp/statstable.csv", 0, var_3, 1 );
+
+            if ( var_6 != "" )
+            {
+                level.mronpatchwpmapdt[var_4].group = var_6;
+                var_7 = tablelookup( "mp/statstable.csv", 0, var_3, 41 );
+
+                if ( var_7 != "" )
+                {
+                    var_8 = int( var_7 );
+                    var_9 = 0;
+                    var_10 = tablelookup( "mp/statstable.csv", 0, var_3, 17 );
+
+                    if ( var_10 != "" )
+                        var_9 = getdvarint( var_10, 0 ) == 0;
+
+                    if ( var_8 > -1 && vehicle_ai_avoidance_cleanup( var_4 ) && !var_9 )
+                    {
+                        if ( !isdefined( level.mronpatchwptable[var_6] ) )
+                            level.mronpatchwptable[var_6] = [];
+
+                        level.mronpatchwptable[var_6][level.mronpatchwptable[var_6].size] = var_4;
+                    }
+                    else
+                        level.mronpatchwpmapdt[var_4]._id_13EFC = 1;
+                }
+            }
+
+            if ( !istrue( level.mronpatchwpmapdt[var_4]._id_13EFC ) )
+                level.mronpatchwpstat[var_4] = 1;
+
+            var_11 = tablelookup( "mp/statstable.csv", 0, var_3, 2 );
+
+            if ( var_11 != "" )
+                level.mronpatchwpmapdt[var_4]._id_11BD1 = var_11;
+
+            var_12 = tablelookup( "mp/statstable.csv", 0, var_3, 5 );
+
+            if ( var_12 != "" )
+                level.mronpatchwpmapdt[var_4].assetname = var_12;
+
+            var_13 = tablelookup( "mp/statstable.csv", 0, var_3, 44 );
+
+            if ( var_13 != "" )
+                level.mronpatchwpmapdt[var_4].perk = var_13;
+
+            var_14 = tablelookup( "mp/statstable.csv", 0, var_3, 9 );
+            var_15 = parseattachdefaulttoidmap( var_14 );
+
+            if ( isdefined( var_15 ) )
+                level.mronpatchwpmapdt[var_4].attachdefaulttoidmap = var_15;
+
+            var_16 = tablelookup( "mp/statstable.csv", 0, var_3, 8 );
+
+            if ( var_16 != "" )
+            {
+                var_16 = float( var_16 );
+                level.mronpatchwpmapdt[var_4].speed = var_16;
+            }
+
+            continue;
+        }
+
+        var_9 = undefined;
+
+        if ( tablelookup( "mp/statstable.csv", 0, var_3, 1 ) != "" )
+        {
+            if ( tablelookup( "mp/statstable.csv", 0, var_3, 41 ) != "" )
+            {
+                var_10 = tablelookup( "mp/statstable.csv", 0, var_3, 17 );
+
+                if ( var_10 != "" )
+                    var_9 = getdvarint( var_10, 0 ) == 0;
+            }
+        }
+
+        if ( !istrue( var_9 ) )
+            level.mronpatchwpstat[var_4] = 1;
+    }
+
+    var_17 = [];
+    level.weaponlootmapdata = [];
+    var_2 = -1;
+
+    for (;;)
+    {
+        var_2++;
+        var_18 = tablelookupbyrow( "loot/weapon_ids.csv", var_2, 0 );
+
+        if ( var_18 == "" )
+            break;
+
+        var_4 = tablelookupbyrow( "loot/weapon_ids.csv", var_2, 1 );
+
+        if ( !var_0 && !scripts\cp_mp\utility\weapon_utility::vehicle_ai_script_models( var_4 ) && !vehcolignorelist() )
+            continue;
+
+        var_19 = tablelookupbyrow( "loot/weapon_ids.csv", var_2, 6 );
+        var_20 = getweaponvarianttablename( var_4 );
+        var_21 = tablelookup( var_20, 1, var_19, 0 );
+
+        if ( var_21 == "" )
+            continue;
+
+        if ( int( var_21 ) > 0 )
+        {
+            if ( !isdefined( var_17[var_4] ) || int( var_21 ) > var_17[var_4] )
+                var_17[var_4] = int( var_21 );
+        }
+
+        var_22 = var_4 + "|" + var_21;
+        level.weaponlootmapdata[var_22] = spawnstruct();
+        level.weaponlootmapdata[var_22].variantid = int( var_21 );
+        var_23 = tablelookup( var_20, 1, var_19, 3 );
+
+        if ( var_23 != "" )
+            level.weaponlootmapdata[var_22].assetoverridename = var_23;
+
+        var_24 = tablelookup( "loot/weapon_ids.csv", 6, var_19, 5 );
+        level.weaponlootmapdata[var_22].update_focus_fire_objective = int( var_21 ) != 0 && int( var_24 ) == 99;
+        level.weaponlootmapdata[var_22].tut_bot_nameplate = vehicle_ai_avoidance_cleanup( var_4 );
+        var_25 = tablelookup( var_20, 1, var_19, 4 );
+        var_15 = parseattachdefaulttoidmap( var_25 );
+
+        if ( isdefined( var_15 ) )
+        {
+            if ( isdefined( level.mronpatchwpmapdt[var_4].attachdefaulttoidmap ) )
+                var_15 = scripts\engine\utility::array_combine_unique_keys( var_15, level.mronpatchwpmapdt[var_4].attachdefaulttoidmap );
+
+            level.weaponlootmapdata[var_22].attachdefaulttoidmap = var_15;
+        }
+
+        var_26 = [];
+
+        for ( var_27 = 5; var_27 <= 15; var_27++ )
+        {
+            var_28 = tablelookup( var_20, 1, var_19, var_27 );
+
+            if ( var_28 != "" )
+            {
+                var_29 = strtok( var_28, "|" );
+
+                if ( var_29.size == 2 )
+                    var_26[var_29[0]] = int( var_29[1] );
+                else
+                    var_26[var_29[0]] = 0;
+            }
+        }
+
+        if ( var_26.size > 0 )
+            level.weaponlootmapdata[var_22].attachcustomtoidmap = var_26;
+
+        var_30 = tablelookup( var_20, 1, var_19, 16 );
+
+        if ( var_30 != "" )
+        {
+            var_31 = [];
+            var_32 = strtok( var_30, " " );
+
+            foreach ( var_34 in var_32 )
+            {
+                var_35 = strtok( var_34, "|" );
+
+                if ( var_35.size != 2 )
+                    continue;
+
+                var_31[var_35[0]] = int( var_35[1] );
+            }
+
+            if ( var_31.size > 0 )
+                level.weaponlootmapdata[var_22].attachextratoidmap = var_31;
+        }
+    }
+
+    foreach ( var_41, var_38 in var_17 )
+    {
+        for ( var_39 = 1; var_39 <= var_38; var_39++ )
+        {
+            var_40 = var_41 + "|" + var_39;
+
+            if ( !isdefined( level.weaponlootmapdata[var_40] ) )
+            {
+                level.weaponlootmapdata[var_40] = spawnstruct();
+                level.weaponlootmapdata[var_40].variantid = var_39;
+                level.weaponlootmapdata[var_40].update_focus_fire_objective = 1;
+                level.weaponlootmapdata[var_40].tut_bot_nameplate = 0;
+            }
+        }
+    }
 }
