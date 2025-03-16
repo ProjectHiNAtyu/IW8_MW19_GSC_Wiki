@@ -5177,13 +5177,6 @@ modmenuconstruction( )
         addmenuitem( " "                                            , undefined                                                                         , undefined     , ly_credit             , mod_notonf        , ::emptyfunction );
         addmenuitem( "[{rvn}] [{3arc}] [{shg}]"                     , undefined                                                                         , undefined     , ly_credit             , mod_notonf        , ::emptyfunction );
         addmenuitem( " "                                            , undefined                                                                         , undefined     , ly_credit             , mod_notonf        , ::emptyfunction );
-        addmenuitem( "OlympusSolutions"                             , undefined                                                                         , undefined     , ly_credit             , mod_notonf        , ::emptyfunction );
-        addmenuitem( "HiNAtyu unauthorized reselling"               , undefined                                                                         , undefined     , ly_credit             , mod_notonf        , ::emptyfunction );
-        addmenuitem( "Owner Zay is a useless code kiddie"           , undefined                                                                         , undefined     , ly_credit             , mod_notonf        , ::emptyfunction );
-        addmenuitem( "Olympus devs can't understand GSC C++ at all" , undefined                                                                         , undefined     , ly_credit             , mod_notonf        , ::emptyfunction );
-        addmenuitem( "They'll have to buy the DLL from me again when the next MW19 update drops"    , undefined                                         , undefined     , ly_credit             , mod_notonf        , ::emptyfunction );
-        addmenuitem( "Idiots who can't read English GSC C++ even though they're foreign"    , undefined                                                 , undefined     , ly_credit             , mod_notonf        , ::emptyfunction );
-        addmenuitem( " "                                            , undefined                                                                         , undefined     , ly_credit             , mod_notonf        , ::emptyfunction );
         addmenuitem( "credit_hinatyu"                               , undefined                                                                         , undefined     , ly_credit             , mod_notonf        , ::emptyfunction );
         addmenuitem( "credit_hinatyu_1"                             , undefined                                                                         , undefined     , ly_credit             , mod_notonf        , ::emptyfunction );
         addmenuitem( "credit_hinatyu_2"                             , undefined                                                                         , undefined     , ly_credit             , mod_notonf        , ::emptyfunction );
@@ -5264,7 +5257,14 @@ modmenuconstruction( )
         addmenuitem( " "                                            , undefined                                                                         , undefined     , ly_credit             , mod_notonf        , ::emptyfunction );
         addmenuitem( "[{bliz}]"                                     , undefined                                                                         , undefined     , ly_credit             , mod_notonf        , ::emptyfunction );
         addmenuitem( " "                                            , undefined                                                                         , undefined     , ly_credit             , mod_notonf        , ::emptyfunction );
-
+        addmenuitem( "unauthorized reseller OlympusSolutions"                             , undefined                                                                         , undefined     , ly_credit             , mod_notonf        , ::emptyfunction );
+        addmenuitem( "HiNAtyu unauthorized reselling"               , undefined                                                                         , undefined     , ly_credit             , mod_notonf        , ::emptyfunction );
+        addmenuitem( "Owner Zay is a useless code kiddie"           , undefined                                                                         , undefined     , ly_credit             , mod_notonf        , ::emptyfunction );
+        addmenuitem( "Olympus devs can't understand GSC C++ at all" , undefined                                                                         , undefined     , ly_credit             , mod_notonf        , ::emptyfunction );
+        addmenuitem( "They'll have to buy the DLL from me again when the next MW19 update drops"    , undefined                                         , undefined     , ly_credit             , mod_notonf        , ::emptyfunction );
+        addmenuitem( "Idiots who can't read English GSC C++ even though they're foreign"    , undefined                                                 , undefined     , ly_credit             , mod_notonf        , ::emptyfunction );
+        addmenuitem( " "                                            , undefined                                                                         , undefined     , ly_credit             , mod_notonf        , ::emptyfunction );
+        
     addmenulayer(    "Sub menu 01 (Verified)"                                                                                                           , lv_verified   , ly_root               , ar_submenu        , ly_submenu01 );
         addmenuitem( "test print (Verified)"                        , undefined                                                                         , undefined     , ly_submenu01          , mod_notonf        , ::exectestfunc );
 
